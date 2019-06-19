@@ -1,3 +1,4 @@
+
 " Encoding
 set encoding=utf-8
 
@@ -9,40 +10,79 @@ set mouse=a
 
 " Helps force plugins to load correctly when it is turned back on below
 filetype off
+call plug#begin('~/.vim/plugged')
 
-source '$HOME/configs/vim/init.vimrc'
+Plug 'Shougo/defx.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'styled-components/vim-styled-components', { 'branch': 'develop' }
+Plug 'reasonml-editor/vim-reason-plus'
+Plug 'editorconfig/editorconfig-vim'
+" Plug 'Valloric/YouCompleteMe'
+Plug 'tomtom/tcomment_vim'
+Plug 'Quramy/tsuquyomi'
+Plug 'SirVer/ultisnips'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+Plug 'mgee/lightline-bufferline'
+Plug 'alvan/vim-closetag'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'epilande/vim-es2015-snippets'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'fatih/vim-go'
+Plug 'jiangmiao/auto-pairs'
+Plug 'jparise/vim-graphql'
+Plug 'alx741/vim-hindent'
+Plug 'pangloss/vim-javascript' 
+Plug 'heavenshell/vim-jsdoc'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'moll/vim-node'
+Plug 'epilande/vim-react-snippets'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sensible'
+Plug 'honza/vim-snippets'
+Plug 'ruanyl/vim-sort-imports'
+Plug 'nbouscal/vim-stylish-haskell'
+Plug 'tpope/vim-surround'
+Plug 'cespare/vim-toml'
+Plug 'tpope/vim-unimpaired'
+Plug 'elmcast/elm-vim'
+Plug 'mattn/emmet-vim'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'rizzatti/dash.vim'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'itchyny/lightline.vim'
+Plug 'rust-lang/rust.vim'
+Plug 'wellle/targets.vim'
+" Plug 'Shougo/unite.vim'
+" Plug 'Shougo/vimfiler.vim'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'chriskempson/base16-vim'
+" Initialize plugin system
+"
+call plug#end()
 
-" Put stuff oni related here
-if exists('g:gui_oni')
-    " Statements here
-    set shortmess=a
-endif
-
-set cmdheight=4
+source $HOME/.vim/colorscheme.vim
 
 " For plugins to load correctly
 filetype plugin indent on
 
+" let g:deoplete#enable_at_startup = 1
 let g:vim_jsx_pretty_colorful_config = 1 " default 0
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<C-l>"
 
+let g:goyo_linenr = 1
+let g:goyo_width = 90
+let g:goyo_height = 100
 
 let g:gitgutter_map_keys = 0
 
-" set statusline+=%#warningmsg#y
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-"
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 1
-" let g:syntastic_javascript_checkers = ['eslint']
-" let g:syntastic_haskell_checkers = ['hlint']
-" let g:elm_syntastic_show_warnings = 1
-let g:elm_setup_keybindings = 0
+" let g:elm_setup_keybindings = 0
 let g:elm_format_autosave = 1
 
 let g:user_emmet_leader_key='µ' " ALT-M
@@ -56,31 +96,11 @@ let g:user_emmet_settings = {
     \  }
   \}
 
-" filenames like *.xml, *.html, *.xhtml, ...
-" These are the file extensions where this plugin is enabled.
-"
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
-
-" filenames like *.xml, *.xhtml, ...
-" This will make the list of non-closing tags self-closing in the specified files.
-"
-let g:closetag_xhtml_filenames = '*.xhtml,*.js,*.jsx'
-
-" integer value [0|1]
-" This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
-"
-let g:closetag_emptyTags_caseSensitive = 1
-
-" Shortcut for closing tags, default is '>'
-"
-let g:closetag_shortcut = '>'
-" let g:indentLine_char = '│'
-" let g:indentLine_enabled = 0
-
-" Add > at current position without closing the current tag, default is ''
-"
-let g:closetag_close_shortcut = '<leader>>'
-
+" let g:LanguageClient_serverCommands = {
+" 			\ 'reason': ['~/reason-language-server/reason-language-server.exe'],
+" 			\ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+" 			\ 'javascript.jsx': ['~/.nvm/versions/node/v10.15.3/bin/javascript-typescript-stdio'],
+" 			\ }
 
 
 set wildignore+=*/tmp/*,*/node_modules/*,*.so,*.swp,*.zip     " MacOSX/Linux
@@ -119,6 +139,17 @@ if has("autocmd") && exists("+omnifunc")
         \   setlocal omnifunc=syntaxcomplete#Complete |
         \ endif
 endif
+au BufRead,BufNewFile *.jsx,*.js set filetype=javascript.jsx 
+au FileType javascript.jsx,typescript.tsx let b:AutoPairs = AutoPairsDefine({'<>':'</>'}) 
+" au BufWritePre,InsertLeave *.js call timer_start(500, {tid -> CocAction('runCommand', 'prettier.formatFile')})
+
+au BufRead,BufNewFile *.md setlocal spell nolist
+au FileType md setlocal spell nolist
+
+au FileType elm,haskell setlocal sw=4 ts=4 nolist expandtab
+
+au FileType rust setlocal sw=4 ts=4 expandtab
+au FileType rust let b:AutoPairs = AutoPairsDefine({'|':'|', '\w\zs<':'>'})
 
 " backup to ~/.tmp
 set backup
@@ -127,40 +158,26 @@ set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
 
-let g:ale_linters = { 
-			\'javascript':['eslint'], 
-			\'haskell': ['stack-ghc', 'ghc-mod', 'hlint', 'hdevtools', 'hfmt'],
-			\}
+" let g:ale_linters = { 
+" 			\'javascript':['eslint'], 
+" 			\'rust': ['cargo', 'rls']
+" 			\}
 
-let g:ale_fixers = {
-			\'javascript':['prettier']
-			\}
-
-let g:jsdoc_enable_es6 = 1
-let g:javascript_plugin_jsdoc = 1
-
-
+" let g:ale_fixers = {
+" 			\'javascript':['prettier'],
+" 			\'rust': ['rustfmt']
+" 			\}
+"
+" let g:jsdoc_enable_es6 = 1
+" let g:javascript_plugin_jsdoc = 1
+"
+"
 " let g:ale_fix_on_save = 1
-let g:ale_javascript_prettier_use_local_config = 1
-highlight ALEError ctermbg=0 cterm=underline ctermfg=red
-highlight ALEWarning ctermbg=0 cterm=underline ctermfg=red
-
-function! s:base16_customize() abort
-  call Base16hi("MatchParen", g:base16_gui05, g:base16_gui03, g:base16_cterm05, g:base16_cterm03, "bold,italic", "")
-endfunction
-
-augroup on_change_colorschema
-  autocmd!
-  autocmd ColorScheme * call s:base16_customize()
-augroup END
-
-" augroup FiletypeGroup
-"     autocmd!
-"     au BufNewFile,BufRead *.js set filetype=javascript.jsx
-" 	augroup END
+" let g:ale_javascript_prettier_use_local_config = 1
 
 
 let mapleader = ","
+let maplocalleader = "\\"
 
 " Security
 set modelines=0
@@ -196,6 +213,65 @@ set matchpairs+=<:> " use % to jump between pairs runtime! macros/matchit.vim
 " Allow hidden buffers
 set hidden
 "
+" Some server have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+"
 " Rendering
 set ttyfast
 
@@ -229,16 +305,12 @@ endif
 set list
 
 " Color scheme (terminal)
-set background=dark
+
 " set t_Co=256
 let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
-colorscheme base16-material
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
+
 " set cursorline 
 hi clear Cursorline 
 hi CursorlineNR cterm=bold 
@@ -266,19 +338,17 @@ set showtabline=2  " always show tabline
 
 " use lightline-buffer in lightline
 let g:lightline = {
+			\ 'colorscheme': 'Tomorrow',
+			\ 'active': {
+			\   'left': [ [ 'mode', 'paste' ],
+			\             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+			\ },
+			\ 'component_function': {
+			\   'cocstatus': 'coc#status'
+			\ },
 			\ 'tabline': { 'left': [[ 'buffers' ]], 'right': [[ 'close' ]] },
 			\ 'component_expand': { 'buffers': 'lightline#bufferline#buffers' },
 			\ 'component_type': {'buffers': 'tabsel' },
-			\ 'component_function': {
-			\		'filename': 'LightlineFilename',
-			\ },
-			\ 'component': {
-			\   'separator': '',
-			\ },
-			\ 'active': {
-			\   'left': [ [ 'mode', 'paste' ],
-			\             ['readonly', 'filename', 'modified', '' ] ]
-			\ },
 			\ }
 
 "'time': %{strftime('%R', getftime(expand('%')))}
@@ -299,15 +369,16 @@ let g:vimfiler_force_overwrite_statusline = 0
 let g:vimshell_force_overwrite_statusline = 0
 
 " no concealing qotes in json
-let g:ycm_always_populate_location_list = 1
-let g:ycm_semantic_triggers = {
-     \ 'elm' : ['.'],
-		 \ 'haskell' : ['.'],
-		 \ 'typescript,javascript' : ['.'],
-		 \ 'rust' : [ '.', '::'],
-     \}
+" let g:ycm_always_populate_location_list = 1
+" let g:ycm_semantic_triggers = {
+"      \ 'elm' : ['.'],
+" 		 \ 'haskell' : ['.'],
+" 		 \ 'typescript,javascript' : ['.'],
+" 		 \ 'rust' : [ '.', '::'],
+"      \}
+"
+" let g:ycm_rust_src_path = '/Users/jake.munoz/rustc-1.31.1/src'
 
-let g:ycm_rust_src_path = '/Users/jake.munoz/rustc-1.31.1/src'
 
 " Disable haskell-vim omnifunc
 let g:haskellmode_completion_ghc = 1
@@ -315,16 +386,16 @@ let g:haskell_classic_highlighting = 0
 let g:hindent_on_save = 1
 let g:hindent_indent_size = 4
 
-au BufRead,BufNewFile *.js set filetype=javascript.jsx
-" au BufRead,BufNewFile *.tsx set filetype=typescript.tsx
-au BufRead,BufNewFile *.md setlocal spell nolist
-
-" autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc expandtab
-autocmd FileType elm,haskell setlocal sw=4 ts=4 nolist expandtab
-autocmd FileType md setlocal spell nolist
-
-autocmd FileType rust setlocal sw=4 ts=4 expandtab
-
+let g:closetag_xhtml_filetypes = 'javascript.jsx,jsx'
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js,*.jsx'
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.js'
+let g:closetag_emptyTags_caseSensitive = 1
+let g:closetag_shortcut = '>'
+let g:closetag_regions = {
+    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+    \ 'javascript.jsx': 'jsxRegion',
+    \ }
+let g:closetag_close_shortcut = '<leader>>'
 
 let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
 let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
@@ -353,7 +424,7 @@ endfunction
 augroup VimCSS3Syntax
   autocmd!
 
-  autocmd FileType css,js,javascript.jsx setlocal iskeyword+=-
+  autocmd FileType css,js,javascript,javascript.jsx setlocal iskeyword+=-
 augroup END
 
 
@@ -408,11 +479,31 @@ let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
 let g:go_fmt_command = "goimports"
 
-let g:vimfiler_as_default_explorer = 1
-function! s:vimfiler_settings()
-  nnoremap <buffer>s :<C-u>call vimfiler#mappings#do_switch_action('split')<CR>
-  nnoremap <buffer>v :<C-u>call vimfiler#mappings#do_switch_action('vsplit')<CR>
-endfunction
+""" Coc 
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+
+" let g:vimfiler_as_default_explorer = 1
+" function! s:vimfiler_settings()
+"   nnoremap <buffer>s :<C-u>call vimfiler#mappings#do_switch_action('split')<CR>
+"   nnoremap <buffer>v :<C-u>call vimfiler#mappings#do_switch_action('vsplit')<CR>
+" endfunction
+
 
 highlight Comment cterm=italic
 
@@ -427,7 +518,6 @@ nnoremap <leader>f :Files<cr>
 nnoremap <leader>ag :Rg<cr>
 nnoremap <leader>r :e!<cr>
 nnoremap <leader>c :Commits<cr>
-nnoremap - :VimFilerExplorer <CR>
 nnoremap ; :
 nnoremap <leader>, ;
 
@@ -452,8 +542,9 @@ nnoremap <C-l> :JsDoc<CR>
 " Ctrl-s to save
 noremap <silent> <F6>          :update<CR>
 vnoremap <silent> <F6>         <C-C>:update<CR>
-noremap <silent> <Leader>s :update<CR>:e!<CR>
-vnoremap <silent> <Leader>s :update<CR>:e!<CR>
+" :e! to refresh
+noremap <silent> <Leader>s :update<CR>:e!<CR>''''
+vnoremap <silent> <Leader>s :update<CR>:e!<CR>''''
 
 " mapping ctrl-backspace doesn't work in terminal vim this is a workaround
 inoremap ˙ <C-w>
@@ -486,6 +577,11 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+tnoremap <C-k> <C-w>k
+tnoremap <C-j> <C-w>j
+tnoremap <C-h> <C-w>h
+tnoremap <C-l> <C-w>l
+
 " Move up/down editor lines
 nnoremap j gj
 nnoremap k gk
@@ -498,8 +594,10 @@ map <leader><space> :let @/=''<cr> " clear search
 
 " Formatting
 map <leader>q gqip
-nnoremap gd :YcmCompleter GoTo<CR>
-nnoremap <leader>d :YcmCompleter GetDoc<CR>
+" nnoremap gd :YcmCompleter GoTo<CR>
+" nnoremap <leader>d :YcmCompleter GetDoc<CR>
+" noremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 
 " LINUX/WIN
 " nnoremap <A-j> :m .+1<CR>==
@@ -517,5 +615,86 @@ nnoremap ˚ :m .-2<CR>==
 inoremap ∆ <Esc>:m .+1<CR>==gi
 inoremap ˚ <Esc>:m .-2<CR>==gi
 vnoremap ∆ :m '>+1<CR>gv=gv
-let g:AutoPairsShortcutFastWrap = '<C-e>'
-let g:AutoPairs = {'|':'|','(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+
+call defx#custom#option('_', {
+			\ 'show_ignored_files': 0,
+			\ 'buffer_name': '',
+			\ 'winwidth': 40,
+			\ 'split': 'vertical',
+			\ 'direction': 'topleft',
+			\ 'toggle': 1,
+			\ 'resume': 1
+			\ })
+"
+" Defx
+nnoremap <silent> - :Defx<CR>
+
+
+autocmd FileType defx call s:defx_my_settings()
+function! s:defx_my_settings() abort
+	" Define mappings
+	nnoremap <silent><buffer><expr> <CR>
+				\ defx#do_action('open')
+	nnoremap <silent><buffer><expr> c
+				\ defx#do_action('copy')
+	nnoremap <silent><buffer><expr> m
+				\ defx#do_action('move')
+	nnoremap <silent><buffer><expr> p
+				\ defx#do_action('paste')
+	nnoremap <silent><buffer><expr> l
+				\ defx#do_action('open')
+	nnoremap <silent><buffer><expr> E
+				\ defx#do_action('open', 'vsplit')
+	nnoremap <silent><buffer><expr> <CR>
+				\ defx#is_directory() ? defx#do_action('open') :
+				\ defx#do_action('multi', ['drop', 'quit'])
+	nnoremap <silent><buffer><expr> P
+				\ defx#do_action('open', 'pedit')
+	nnoremap <silent><buffer><expr> o
+				\ defx#do_action('open_or_close_tree')
+	nnoremap <silent><buffer><expr> K
+				\ defx#do_action('new_directory')
+	nnoremap <silent><buffer><expr> N
+				\ defx#do_action('new_file')
+	nnoremap <silent><buffer><expr> M
+				\ defx#do_action('new_multiple_files')
+	nnoremap <silent><buffer><expr> C
+				\ defx#do_action('toggle_columns',
+				\                'mark:indent:icon:filename:type:size:time')
+	nnoremap <silent><buffer><expr> S
+				\ defx#do_action('toggle_sort', 'time')
+	nnoremap <silent><buffer><expr> d
+				\ defx#do_action('remove')
+	nnoremap <silent><buffer><expr> r
+				\ defx#do_action('rename')
+	nnoremap <silent><buffer><expr> !
+				\ defx#do_action('execute_command')
+	nnoremap <silent><buffer><expr> x
+				\ defx#do_action('execute_system')
+	nnoremap <silent><buffer><expr> yy
+				\ defx#do_action('yank_path')
+	nnoremap <silent><buffer><expr> .
+				\ defx#do_action('toggle_ignored_files')
+	nnoremap <silent><buffer><expr> ;
+				\ defx#do_action('repeat')
+	nnoremap <silent><buffer><expr> h
+				\ defx#do_action('cd', ['..'])
+	nnoremap <silent><buffer><expr> ~
+				\ defx#do_action('cd')
+	nnoremap <silent><buffer><expr> q
+				\ defx#do_action('quit')
+	nnoremap <silent><buffer><expr> <Space>
+				\ defx#do_action('toggle_select') . 'j'
+	nnoremap <silent><buffer><expr> *
+				\ defx#do_action('toggle_select_all')
+	nnoremap <silent><buffer><expr> j
+				\ line('.') == line('$') ? 'gg' : 'j'
+	nnoremap <silent><buffer><expr> k
+				\ line('.') == 1 ? 'G' : 'k'
+	nnoremap <silent><buffer><expr> <C-l>
+				\ defx#do_action('redraw')
+	nnoremap <silent><buffer><expr> <C-g>
+				\ defx#do_action('print')
+	nnoremap <silent><buffer><expr> cd
+				\ defx#do_action('change_vim_cwd')
+endfunction
